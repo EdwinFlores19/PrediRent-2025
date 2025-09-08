@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrediRent - Simulaciones y Reportes Personalizados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container.dashboard {
+            max-width: 900px;
+            padding: 30px;
+        }
+
+        .screen {
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .header .back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            color: #333;
+        }
+
+        .header .back-btn:hover {
+            color: #667eea;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .logo::before {
+            content: "🏠";
+            font-size: 20px;
+        }
+
+        .trust-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .social-buttons {
+            margin-top: 30px;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .social-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .verification-code {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .verification-input {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .verification-input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .link-text {
+            text-align: center;
+            color: #667eea;
+            font-size: 14px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .link-text:hover {
+            text-decoration: underline;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .premium-badge {
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .profile-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .welcome-section h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .upgrade-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .features-grid.bottom {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: linear-gradient(135deg, #45b7d1, #96c93d);
+            color: white;
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .feature-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .feature-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .feature-card:nth-child(1) .feature-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+
+        .feature-card:nth-child(2) .feature-btn {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .feature-card:nth-child(3) .feature-btn {
+            background: linear-gradient(135deg, #45b7d1, #96c93d);
+            color: white;
+        }
+
+        .bottom .feature-card:nth-child(1) .feature-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .bottom .feature-card:nth-child(2) .feature-btn {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .container.dashboard {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid.bottom {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sms-info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #1976d2;
+        }
+
+        .resend-info {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div class="container" id="loginScreen">
+        <div class="screen active">
+            <div class="trust-badge">Certificado por auditoría</div>
+            
+            <div class="logo">PrediRent</div>
+            
+            <h2 class="title">Bienvenido, ingresa para acceder a tus simulaciones y reportes personalizados</h2>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="country">País o región</label>
+                    <select class="form-control" id="country">
+                        <option>🇵🇪 Perú (+51)</option>
+                        <option>🇦🇷 Argentina (+54)</option>
+                        <option>🇨🇴 Colombia (+57)</option>
+                        <option>🇨🇱 Chile (+56)</option>
+                        <option>🇲🇽 México (+52)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Número de teléfono</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Ingresa tu número">
+                </div>
+                
+                <button type="submit" class="btn-primary">Continúa</button>
+            </form>
+            
+            <div class="social-buttons">
+                <button class="social-btn">
+                    <span>🔍</span> Continúa con Google
+                </button>
+                <button class="social-btn">
+                    <span>🍎</span> Continúa con Apple
+                </button>
+                <button class="social-btn">
+                    <span>✉️</span> Continúa con el correo electrónico
+                </button>
+                <button class="social-btn">
+                    <span>📘</span> Continúa con Facebook
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Verificación -->
+    <div class="container" id="verificationScreen">
+        <div class="screen">
+            <div class="trust-badge">Certificado por auditoría</div>
+            
+            <div class="header">
+                <button class="back-btn" onclick="goToScreen('loginScreen')">&larr;</button>
+                <div class="logo">PrediRent</div>
+            </div>
+            
+            <h2 class="title">Confirma tu número de teléfono</h2>
+            
+            <div class="sms-info">
+                Ingresa el código que enviamos por SMS al <strong id="phoneDisplay"></strong>.
+            </div>
+            
+            <div class="verification-code">
+                <input type="text" class="verification-input" maxlength="1">
+                <input type="text" class="verification-input" maxlength="1">
+                <input type="text" class="verification-input" maxlength="1">
+                <input type="text" class="verification-input" maxlength="1">
+                <input type="text" class="verification-input" maxlength="1">
+                <input type="text" class="verification-input" maxlength="1">
+            </div>
+            
+            <button class="btn-primary" onclick="goToScreen('registrationScreen')">Continuar</button>
+            
+            <div class="link-text">Elige una opción diferente</div>
+            <div class="resend-info">
+                ¿No recibiste el código?<br>
+                Puedes reenviar en 59 segundos
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Registro -->
+    <div class="container" id="registrationScreen">
+        <div class="screen">
+            <div class="trust-badge">Certificado por auditoría</div>
+            
+            <div class="header">
+                <button class="back-btn" onclick="goToScreen('verificationScreen')">&larr;</button>
+                <div class="logo">PrediRent</div>
+            </div>
+            
+            <h2 class="title">Terminar de registrarme</h2>
+            
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label>Nombre completo</label>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Nombres que aparecen en el DNI" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Apellidos que aparecen en el DNI" required>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                        Asegúrate de que coincida con el nombre que aparece en los documentos de identidad oficial. Si usas otro nombre, puedes agregar el <strong>nombre que prefieres</strong>
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Fecha de nacimiento</label>
+                    <div class="form-row">
+                        <select class="form-control" required>
+                            <option value="">Día</option>
+                            <option value="1">1</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                        </select>
+                        <select class="form-control" required>
+                            <option value="">Mes</option>
+                            <option value="1">Enero</option>
+                            <option value="6">Junio</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                        <select class="form-control" required>
+                            <option value="">Año</option>
+                            <option value="1990">1990</option>
+                            <option value="1995">1995</option>
+                            <option value="2000">2000</option>
+                        </select>
+                    </div>
+                    <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                        Para poder registrarte debes tener al menos 18 años. No compartimos la fecha de nacimiento con otros usuarios de PrediRent.
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Información de contacto</label>
+                    <input type="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                    <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                        Te enviaremos confirmaciones de viaje y los recibos por correo electrónico.
+                    </p>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        Al seleccionar <strong>Aceptar y continuar</strong>, acepto los Términos de servicio, los Términos del servicio de pago, la Política contra la discriminación y la Política de privacidad, además reconozco la Política de privacidad.
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="margin-top: 20px;">Aceptar y continuar</button>
+                
+                <div style="font-size: 11px; color: #888; margin-top: 15px; text-align: center;">
+                    PrediRent te enviará ofertas exclusivas para miembros, contenidos inspiradores, mensajes de marketing y notificaciones push. Puedes deshabilitar la configuración de la cuenta o desactivarme desde atajos de las notificaciones en cualquier momento.
+                </div>
+                
+                <div class="checkbox-group" style="margin-top: 15px;">
+                    <input type="checkbox" id="marketing">
+                    <label for="marketing">No quiero recibir mensajes promocionales de PrediRent.</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="container dashboard" id="dashboardScreen">
+        <div class="screen">
+            <div class="dashboard-header">
+                <div class="logo">PrediRent</div>
+                <div class="user-info">
+                    <span>Juan Perez</span>
+                    <span class="premium-badge">PREMIUM</span>
+                    <button class="profile-btn">Certificar País</button>
+                </div>
+            </div>
+            
+            <div class="welcome-section">
+                <h1>¡Bienvenido a PrediRent! 🎉</h1>
+                <p>Gestiona tus propiedades de forma inteligente y maximiza tus ingresos</p>
+                <button class="upgrade-btn">⚡ ¡Upgradea a Premium! Desbloquea reportes avanzados y asesoría personalizada</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Propiedades Activas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">S/ 4,500</div>
+                    <div class="stat-label">Ingresos del Mes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Reservas Activas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">Ocupación Promedio</div>
+                </div>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <div class="feature-title">Ver Propiedades</div>
+                    <div class="feature-description">Revisa, edita y gestiona tus propiedades registradas en la plataforma</div>
+                    <button class="feature-btn">Ver Propiedades</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">➕</div>
+                    <div class="feature-title">Registrar Propiedad</div>
+                    <div class="feature-description">Añade una nueva propiedad a tu portafolio de inversiones</div>
+                    <button class="feature-btn">Registrar Nueva</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-title">Estimar Precios</div>
+                    <div class="feature-description">Utiliza nuestro algoritmo de precios avanzado para maximizar tus ingresos</div>
+                    <button class="feature-btn">Estimar Precios</button>
+                </div>
+            </div>
+            
+            <div class="features-grid bottom">
+                <div class="feature-card">
+                    <div class="feature-icon">❓</div>
+                    <div class="feature-title">Preguntas Frecuentes</div>
+                    <div class="feature-description">Encuentra respuestas a las dudas más comunes sobre nuestra plataforma</div>
+                    <button class="feature-btn">Ver FAQ</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <div class="feature-title">Convertirse Premium</div>
+                    <div class="feature-description">Desbloquea funciones avanzadas, reportes y asesoría personalizada</div>
+                    <button class="feature-btn">Upgrade Ahora</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentScreen = 'loginScreen';
+        
+        // Función para cambiar entre pantallas
+        function goToScreen(screenId) {
+            // Ocultar pantalla actual
+            document.getElementById(currentScreen).querySelector('.screen').classList.remove('active');
+            
+            // Mostrar nueva pantalla
+            currentScreen = screenId;
+            document.getElementById(currentScreen).querySelector('.screen').classList.add('active');
+            
+            // Actualizar container
+            const containers = document.querySelectorAll('.container');
+            containers.forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            document.getElementById(currentScreen).style.display = 'flex';
+            
+            // Ajustar clase dashboard
+            if (screenId === 'dashboardScreen') {
+                document.getElementById(screenId).classList.add('dashboard');
+            }
+        }
+
+        // Manejo del formulario de login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const phone = document.getElementById('phone').value;
+            const country = document.getElementById('country').value;
+            
+            if (phone) {
+                // Mostrar el número de teléfono en la pantalla de verificación
+                document.getElementById('phoneDisplay').textContent = country.split(' ')[1] + ' ' + phone;
+                goToScreen('verificationScreen');
+                
+                // Simular el envío de código
+                setTimeout(() => {
+                    // Auto-rellenar el código para demo
+                    const inputs = document.querySelectorAll('.verification-input');
+                    const code = '871335';
+                    inputs.forEach((input, index) => {
+                        input.value = code[index];
+                    });
+                }, 1000);
+            }
+        });
+
+        // Manejo de inputs de verificación
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.verification-input');
+            
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+            });
+        });
+
+        // Manejo del formulario de registro
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validar términos y condiciones
+            const termsCheckbox = document.getElementById('terms');
+            if (!termsCheckbox.checked) {
+                alert('Debes aceptar los términos y condiciones para continuar');
+                return;
+            }
+            
+            // Simular registro exitoso
+            setTimeout(() => {
+                goToScreen('dashboardScreen');
+            }, 500);
+        });
+
+        // Efectos interactivos para las tarjetas del dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('.feature-title').textContent;
+                    
+                    // Efecto de clic
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    
+                    // Simular funcionalidad
+                    setTimeout(() => {
+                        alert(`Funcionalidad "${title}" proximamente disponible!`);
+                    }, 200);
+                });
+            });
+        });
+
+        // Botones sociales interactivos
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const platform = this.textContent.trim().split(' ')[2];
+                
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    alert(`Login con ${platform} no disponible en esta demo`);
+                }, 150);
+            });
+        });
+
+        // Animación del contador de tiempo
+        let countdown = 59;
+        function updateCountdown() {
+            const resendInfo = document.querySelector('.resend-info');
+            if (resendInfo && currentScreen === 'verificationScreen') {
+                if (countdown > 0) {
+                    resendInfo.innerHTML = `¿No recibiste el código?<br>Puedes reenviar en ${countdown} segundos`;
+                    countdown--;
+                } else {
+                    resendInfo.innerHTML = `¿No recibiste el código?<br><span style="color: #667eea; cursor: pointer;">Reenviar código ahora</span>`;
+                }
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar solo la pantalla de login inicialmente
+            const containers = document.querySelectorAll('.container');
+            containers.forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            document.getElementById('loginScreen').style.display = 'flex';
+            
+            // Efectos de hover mejorados
+            const buttons = document.querySelectorAll('.btn-primary, .feature-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // Animación de las estadísticas
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const finalValue = stat.textContent;
+                let currentValue = 0;
+                const increment = finalValue.includes('S/') ? 100 : 1;
+                const isPercentage = finalValue.includes('%');
+                const isCurrency = finalValue.includes('S/');
+                
+                const animate = () => {
+                    if (isCurrency) {
+                        const numValue = parseInt(finalValue.replace('S/ ', '').replace(',', ''));
+                        if (currentValue < numValue) {
+                            currentValue += increment;
+                            stat.textContent = `S/ ${currentValue.toLocaleString()}`;
+                            setTimeout(animate, 20);
+                        } else {
+                            stat.textContent = finalValue;
+                        }
+                    } else if (isPercentage) {
+                        const numValue = parseInt(finalValue.replace('%', ''));
+                        if (currentValue < numValue) {
+                            currentValue++;
+                            stat.textContent = `${currentValue}%`;
+                            setTimeout(animate, 30);
+                        }
+                    } else {
+                        const numValue = parseInt(finalValue);
+                        if (currentValue < numValue) {
+                            currentValue++;
+                            stat.textContent = currentValue;
+                            setTimeout(animate, 200);
+                        }
+                    }
+                };
+                
+                // Iniciar animación cuando se muestre el dashboard
+                if (currentScreen === 'dashboardScreen') {
+                    setTimeout(animate, 500);
+                }
+            });
+        });
+
+        // Función para animar estadísticas cuando se accede al dashboard
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach((stat, index) => {
+                const finalValue = stat.textContent;
+                let currentValue = 0;
+                
+                setTimeout(() => {
+                    const animate = () => {
+                        const isCurrency = finalValue.includes('S/');
+                        const isPercentage = finalValue.includes('%');
+                        
+                        if (isCurrency) {
+                            const numValue = parseInt(finalValue.replace('S/ ', '').replace(',', ''));
+                            const increment = Math.ceil(numValue / 30);
+                            if (currentValue < numValue) {
+                                currentValue += increment;
+                                stat.textContent = `S/ ${currentValue.toLocaleString()}`;
+                                setTimeout(animate, 50);
+                            } else {
+                                stat.textContent = finalValue;
+                            }
+                        } else if (isPercentage) {
+                            const numValue = parseInt(finalValue.replace('%', ''));
+                            if (currentValue < numValue) {
+                                currentValue += 2;
+                                stat.textContent = `${Math.min(currentValue, numValue)}%`;
+                                setTimeout(animate, 60);
+                            }
+                        } else {
+                            const numValue = parseInt(finalValue);
+                            if (currentValue < numValue) {
+                                currentValue++;
+                                stat.textContent = currentValue;
+                                setTimeout(animate, 300);
+                            }
+                        }
+                    };
+                    animate();
+                }, index * 200);
+            });
+        }
+
+        // Modificar la función goToScreen para incluir animaciones
+        function goToScreen(screenId) {
+            // Ocultar pantalla actual
+            document.getElementById(currentScreen).querySelector('.screen').classList.remove('active');
+            
+            // Mostrar nueva pantalla
+            currentScreen = screenId;
+            document.getElementById(currentScreen).querySelector('.screen').classList.add('active');
+            
+            // Actualizar container
+            const containers = document.querySelectorAll('.container');
+            containers.forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            document.getElementById(currentScreen).style.display = 'flex';
+            
+            // Ajustar clase dashboard
+            if (screenId === 'dashboardScreen') {
+                document.getElementById(screenId).classList.add('dashboard');
+                // Animar estadísticas después de mostrar el dashboard
+                setTimeout(animateStats, 300);
+            }
+        }
+
+        // Mejorar la funcionalidad de los botones del dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const featureButtons = document.querySelectorAll('.feature-btn');
+                featureButtons.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const title = this.textContent.trim();
+                        
+                        // Efecto visual mejorado
+                        this.style.transform = 'scale(0.9)';
+                        this.style.opacity = '0.8';
+                        
+                        setTimeout(() => {
+                            this.style.transform = '';
+                            this.style.opacity = '';
+                            
+                            // Respuestas personalizadas según el botón
+                            switch(title) {
+                                case 'Ver Propiedades':
+                                    showNotification('📊 Cargando tus propiedades...', 'info');
+                                    break;
+                                case 'Registrar Nueva':
+                                    showNotification('🏠 Abriendo formulario de registro...', 'success');
+                                    break;
+                                case 'Estimar Precios':
+                                    showNotification('💰 Iniciando análisis de mercado...', 'info');
+                                    break;
+                                case 'Ver FAQ':
+                                    showNotification('❓ Cargando preguntas frecuentes...', 'info');
+                                    break;
+                                case 'Upgrade Ahora':
+                                    showNotification('⭐ Redirigiendo a planes Premium...', 'premium');
+                                    break;
+                                default:
+                                    showNotification(`✨ Funcionalidad "${title}" en desarrollo`, 'info');
+                            }
+                        }, 150);
+                    });
+                });
+            }, 100);
+        });
+
+        // Sistema de notificaciones
+        function showNotification(message, type = 'info') {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 12px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                max-width: 300px;
+            `;
+            
+            // Colores según tipo
+            switch(type) {
+                case 'success':
+                    notification.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                    break;
+                case 'premium':
+                    notification.style.background = 'linear-gradient(135deg, #ffd700, #ffed4a)';
+                    notification.style.color = '#333';
+                    break;
+                case 'info':
+                default:
+                    notification.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Animar entrada
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Mejorar interacción con campos de verificación
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const verificationInputs = document.querySelectorAll('.verification-input');
+                verificationInputs.forEach((input, index) => {
+                    input.addEventListener('focus', function() {
+                        this.style.borderColor = '#667eea';
+                        this.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
+                    });
+                    
+                    input.addEventListener('blur', function() {
+                        this.style.borderColor = '#e0e0e0';
+                        this.style.boxShadow = 'none';
+                    });
+                });
+            }, 100);
+        });
+
+    </script>
+</body>
+</html>
