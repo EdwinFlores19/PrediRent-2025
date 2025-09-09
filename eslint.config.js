@@ -1,29 +1,15 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+// eslint.config.js
+// Este archivo configura ESLint para el proyecto, asegurando la calidad del código.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
-      },
-    },
-    rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-    },
-  },
-])
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+
+export default [
+  // Configuración para entornos de navegador, habilitando variables globales como 'window' y 'document'.
+  {languageOptions: { globals: globals.browser }},
+  // Reglas recomendadas de ESLint para JavaScript.
+  pluginJs.configs.recommended,
+  // Reglas recomendadas de ESLint para React, incluyendo buenas prácticas y detección de errores comunes.
+  pluginReactConfig,
+];
