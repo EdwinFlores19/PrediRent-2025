@@ -1,44 +1,126 @@
+/* Contenedor principal y Grid Layout */
 .dashboard-container {
   padding: 2rem;
 }
 
-.dashboard-metrics {
+.dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
-.metric-card {
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Cabecera de Bienvenida */
+.welcome-header {
+  margin-bottom: 2rem;
+}
+
+.welcome-header h1 {
+  margin: 0;
+}
+
+.welcome-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Grid de Métricas y Tarjetas */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stats-card {
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: #fff;
+  border: 1px solid #ebebeb;
 }
 
-.freemium-metrics .metric-card {
-  background-color: #f8f9fa;
+.stats-card h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  color: #666;
 }
 
-.premium-metrics .metric-card {
+.stats-card p {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.stats-card.premium {
   background: linear-gradient(135deg, #6e8efb, #a777e3);
   color: white;
+  border: none;
 }
 
-.freemium-upsell {
-  margin-top: 3rem;
+.stats-card.premium h3 {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Banner de Upgrade */
+.upgrade-premium-banner {
+  margin-top: 2.5rem;
   padding: 2rem;
-  background-color: #eef2ff;
+  background: linear-gradient(135deg, #fce38a, #f38181);
+  color: #333;
   text-align: center;
   border-radius: 12px;
 }
 
 .btn-upgrade {
-  background-color: #ff385c;
-  color: white;
+  background-color: #fff;
+  color: #ff385c;
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   margin-top: 1rem;
+  text-decoration: none;
+}
+
+/* Tarjetas de Acción Rápida */
+.actions-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.action-card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.action-card h4 {
+  margin: 0 0 0.5rem;
+}
+
+.action-card p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.action-card a {
+  color: #ff385c;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Estados de Carga y Error */
+.dashboard-loader, .dashboard-error {
+  padding: 4rem;
+  text-align: center;
+  font-size: 1.2rem;
 }
