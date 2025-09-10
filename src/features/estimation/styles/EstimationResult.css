@@ -1,0 +1,27 @@
+.estimation-container {
+  padding: 2rem;
+  max-width: 700px;
+  margin: auto;
+  text-align: center;
+}
+
+.estimation-main-price {
+  background: #ff385c;
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.estimation-main-price span {
+  font-size: 1.2rem;
+}
+
+.estimation-main-price h3 {
+  font-size: 3rem;
+  margin: 0.5rem 0 0;
+}
+
+.estimation-breakdown {
+  margin-top: 2rem;
+}
