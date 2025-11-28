@@ -1,58 +1,66 @@
-// Mock API para autenticación
+// src/api/authApi.js
+// Conexión real al Backend (Puerto 3000)
 
-// Simula una base de datos de usuarios
-const users = [
-  {
-    id: '1',
-    email: 'user@test.com',
-    password: 'password123',
-    name: 'Usuario de Prueba',
-    tier: 'Premium'
+const BASE_URL = 'http://localhost:3000/api/auth';
+
+export const loginApi = async (email, password) => {
+  try {
+    const response = await fetch(`${BASE_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al iniciar sesión');
+    }
+
+    return {
+      user: data.user,
+      token: data.token
+    };
+  } catch (error) {
+    console.error('Login API Error:', error);
+    throw error;
   }
-];
-
-const generateFakeToken = () => 'fake-jwt-token-' + Math.random().toString(36).substring(2);
-
-export const loginApi = (email, password) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const user = users.find(u => u.email === email && u.password === password);
-      if (user) {
-        const { password, ...userWithoutPassword } = user;
-        resolve({
-          user: userWithoutPassword,
-          token: generateFakeToken(),
-        });
-      } else {
-        reject(new Error('Email o contraseña incorrectos.'));
-      }
-    }, 1000);
-  });
 };
 
-export const registerApi = (userData) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (users.some(u => u.email === userData.email)) {
-        return reject(new Error('El email ya está en uso.'));
-      }
-      const newUser = {
-        id: String(users.length + 1),
-        ...userData,
-        tier: 'Freemium',
-      };
-      users.push(newUser);
-      const { password, ...userWithoutPassword } = newUser;
-      resolve({
-        user: userWithoutPassword,
-        token: generateFakeToken(),
-      });
-    }, 1000);
-  });
+export const registerApi = async (userData) => {
+  try {
+    const response = await fetch(`${BASE_URL}/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nombre: userData.name, // Mapeo de campos si es necesario
+        email: userData.email,
+        password: userData.password
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al registrarse');
+    }
+
+    return {
+      user: data.user,
+      token: data.token
+    };
+  } catch (error) {
+    console.error('Register API Error:', error);
+    throw error;
+  }
 };
 
-export const logoutApi = () => {
-  return new Promise(resolve => {
-    setTimeout(resolve, 500);
-  });
+export const logoutApi = async () => {
+  // El backend no tiene endpoint de logout (stateless JWT), 
+  // así que solo resolvemos para que el frontend limpie el estado.
+  return Promise.resolve();
 };

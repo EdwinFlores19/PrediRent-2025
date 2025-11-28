@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Propiedad - PrediRent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/4-registrar-propiedad.css"> <!-- Reusamos estilos de registro -->
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="3-menu-principal.html" class="back-link">← Volver al Dashboard</a>
+            <h1>Editar Propiedad</h1>
+        </header>
+
+        <main class="form-container">
+            <div id="loading-state" style="text-align: center; padding: 2rem;">
+                <div class="spinner"></div>
+                <p>Cargando datos de la propiedad...</p>
+            </div>
+
+            <form id="edit-property-form" style="display: none;">
+                <input type="hidden" id="propiedadId">
+
+                <div class="form-group">
+                    <label for="titulo">Título de la Propiedad</label>
+                    <input type="text" id="titulo" name="titulo" required class="form-input">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="precio">Precio (PEN)</label>
+                        <input type="number" id="precio" name="precio" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="area">Área (m²)</label>
+                        <input type="number" id="area" name="area" required class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="habitaciones">Habitaciones</label>
+                        <input type="number" id="habitaciones" name="habitaciones" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="banos">Baños</label>
+                        <input type="number" id="banos" name="banos" required class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                    <button type="button" id="cancelBtn" class="btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script src="scripts/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            if (!id) {
+                alert('ID de propiedad no especificado');
+                window.location.href = '3-menu-principal.html';
+                return;
+            }
+
+            // Simulación de carga (aquí iría el fetch real)
+            // const response = await fetchWithAuth(`/propiedades/${id}`);
+            // const data = await response.json();
+
+            // Por ahora, mostramos el formulario vacío para no bloquear
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('edit-property-form').style.display = 'block';
+            document.getElementById('propiedadId').value = id;
+
+            document.getElementById('cancelBtn').addEventListener('click', () => {
+                window.location.href = '3-menu-principal.html';
+            });
+
+            document.getElementById('edit-property-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                alert('Funcionalidad de edición en construcción. Los datos se enviarían al backend.');
+                // Aquí iría el PUT al backend
+            });
+        });
+    </script>
+</body>
+
+</html>

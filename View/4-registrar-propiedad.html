@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Propiedad - PrediRent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/4-registrar-propiedad.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registrar Nueva Propiedad</h1>
+
+        <div class="step-indicator">
+            <div class="step active" id="step-1-indicator">1</div>
+            <div class="step" id="step-2-indicator">2</div>
+            <div class="step" id="step-3-indicator">3</div>
+        </div>
+
+        <form id="form-propiedad">
+            <!-- Paso 1: Información Básica -->
+            <fieldset data-step="1" class="active">
+                <div class="form-group">
+                    <label for="titulo">Título de la Propiedad</label>
+                    <input type="text" id="titulo" name="titulo" required placeholder="Ej: Apartamento en el Centro">
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion" required placeholder="Calle 123, Ciudad">
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo de Inmueble</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Seleccione...</option>
+                        <option value="apartamento">Apartamento</option>
+                        <option value="casa">Casa</option>
+                        <option value="local">Local Comercial</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <!-- Paso 2: Detalles -->
+            <fieldset data-step="2" class="hidden">
+                <div class="form-group">
+                    <label for="area">Área (m²)</label>
+                    <input type="number" id="area" name="area" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="habitaciones">Habitaciones</label>
+                    <input type="number" id="habitaciones" name="habitaciones" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="banos">Baños</label>
+                    <input type="number" id="banos" name="banos" required min="0">
+                </div>
+            </fieldset>
+
+            <!-- Paso 3: Precio y Descripción -->
+            <fieldset data-step="3" class="hidden">
+                <div class="form-group">
+                    <label for="precio">Precio Estimado (USD)</label>
+                    <input type="number" id="precio" name="precio" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+                </div>
+            </fieldset>
+
+            <div class="form-actions">
+                <button type="button" id="btn-prev" style="display: none;">Anterior</button>
+                <button type="button" id="btn-next">Siguiente</button>
+                <button type="submit" id="btn-submit" style="display: none;">Registrar Propiedad</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/api.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/4-registrar-propiedad.js"></script>
+</body>
+
+</html>
