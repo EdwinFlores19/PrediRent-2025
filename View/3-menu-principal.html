@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PrediRent Enterprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/3-menu-principal.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div>
+                <h1 class="dashboard-title">Panel Principal</h1>
+                <p class="user-welcome">Bienvenido a PrediRent Enterprise</p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <a href="8-mi-perfil.html" class="btn-ghost"
+                    style="text-decoration: none; display: flex; align-items: center;">⚙️ Mi Perfil</a>
+                <button id="logoutBtn" class="btn-ghost" style="width: auto;">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <!-- Métricas Principales -->
+        <div class="summary-cards">
+            <!-- Card 1: Mis Propiedades -->
+            <a href="#" class="card" style="text-decoration: none; color: inherit; cursor: default;">
+                <h3>Mis Propiedades</h3>
+                <div class="value highlight" id="total-propiedades">0</div>
+                <div class="trend positive">
+                    <span>↑</span> Activas
+                </div>
+            </a>
+
+            <!-- Card 2: Estimaciones -->
+            <a href="6-mis-estimaciones.html" class="card" style="text-decoration: none; color: inherit;">
+                <h3>Estimaciones</h3>
+                <div class="value" id="total-estimaciones">0</div>
+                <div class="trend neutral">
+                    <span>•</span> Histórico
+                </div>
+            </a>
+
+            <!-- Card 3: Reportes -->
+            <a href="7-mis-reportes.html" class="card" style="text-decoration: none; color: inherit;">
+                <h3>Reportes</h3>
+                <div class="value" id="total-reportes">0</div>
+                <div class="trend positive">
+                    <span>↑</span> Generados
+                </div>
+            </a>
+
+            <!-- Card 4: Plan -->
+            <a href="8-mi-perfil.html" class="card" style="text-decoration: none; color: inherit;">
+                <h3>Plan Actual</h3>
+                <div class="value" id="plan-actual" style="font-size: 1.5rem;">Básico</div>
+                <div class="trend positive">
+                    <span>✓</span> Activo
+                </div>
+            </a>
+        </div>
+
+        <!-- Sección Tus Propiedades -->
+        <section class="properties-section">
+            <h2 class="section-title">Tus Propiedades</h2>
+
+            <!-- Contenedor de la lista de propiedades -->
+            <div id="propiedades-list" class="property-grid">
+                <!-- Estado de carga inicial -->
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Cargando tus propiedades...</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/api.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/3-menu-principal.js"></script>
+</body>
+
+</html>

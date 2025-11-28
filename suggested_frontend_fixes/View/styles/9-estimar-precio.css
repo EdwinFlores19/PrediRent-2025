@@ -1,0 +1,123 @@
+/* 
+ * 9-estimar-precio.css - Refactorizado
+ * Elimina conflictos Rojo/Morado y alinea con Branding Naranja
+ */
+
+.estimator-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Form Section */
+.estimator-form-container {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Result Section */
+.result-container {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-top: 5px solid var(--primary-color);
+    /* Branding accent */
+}
+
+/* Price Display - Highlight */
+.price-display {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--success-color);
+    /* Green for money/success */
+    margin: 1.5rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.confidence-range {
+    font-size: 1.1rem;
+    color: #666;
+    background-color: var(--bg-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* Loading State */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--bg-color);
+    border-top: 5px solid var(--primary-color);
+    /* Orange spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Property Selector */
+.property-select-wrapper {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.property-select-wrapper select {
+    height: 50px;
+    font-size: 1.1rem;
+    border: 2px solid var(--border-color);
+}
+
+.property-select-wrapper select:focus {
+    border-color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .estimator-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .price-display {
+        font-size: 2.5rem;
+    }
+}

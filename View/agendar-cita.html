@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Asesoría - PrediRent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/global.css">
+    <style>
+        body {
+            background-color: #F7FAFC;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calendar-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2D3748;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4A5568;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #FF7B54;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #e06a45;
+        }
+
+        button:disabled {
+            background-color: #CBD5E0;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calendar-container">
+        <h1>Agendar Asesoría</h1>
+        <p>Selecciona una fecha y hora para reunirte con un experto.</p>
+
+        <form>
+            <div class="form-group">
+                <label for="fecha-cita">Fecha</label>
+                <input type="date" id="fecha-cita" required>
+            </div>
+            <div class="form-group">
+                <label for="hora-cita">Hora</label>
+                <input type="time" id="hora-cita" required>
+            </div>
+            <button type="button" id="btn-confirmar-cita">Confirmar Cita</button>
+        </form>
+    </div>
+
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/agendar-cita.js"></script>
+</body>
+
+</html>

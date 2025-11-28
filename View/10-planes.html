@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes y Precios - PrediRent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/global.css">
+    <style>
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-header h1 {
+            font-size: 2.5rem;
+            color: #2D3748;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E2E8F0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid #FF7B54;
+            position: relative;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FF7B54;
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .plan-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2D3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1A202C;
+            margin-bottom: 2rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            flex-grow: 1;
+        }
+
+        .features-list li {
+            margin-bottom: 1rem;
+            color: #4A5568;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            color: #48BB78;
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        .btn-plan {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-plan-outline {
+            background: transparent;
+            border: 2px solid #CBD5E0;
+            color: #4A5568;
+        }
+
+        .btn-plan-outline:hover {
+            border-color: #4A5568;
+            color: #2D3748;
+        }
+
+        .btn-plan-primary {
+            background: #FF7B54;
+            border: 2px solid #FF7B54;
+            color: white;
+        }
+
+        .btn-plan-primary:hover {
+            background: #e06a45;
+            border-color: #e06a45;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="pricing-container">
+        <header class="pricing-header">
+            <a href="3-menu-principal.html"
+                style="display: inline-block; margin-bottom: 1rem; color: #718096; text-decoration: none;">← Volver al
+                Dashboard</a>
+            <h1>Mejora tu Plan</h1>
+            <p>Elige el plan perfecto para potenciar tus inversiones inmobiliarias</p>
+        </header>
+
+        <div class="pricing-grid">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name">Básico</h3>
+                <div class="plan-price">S/ 0 <span>/mes</span></div>
+                <ul class="features-list">
+                    <li>Hasta 2 Propiedades</li>
+                    <li>Estimaciones Básicas</li>
+                    <li>Sin Reportes PDF</li>
+                    <li>Soporte por Email</li>
+                </ul>
+                <button class="btn-plan btn-plan-outline" disabled>Plan Actual</button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">Más Popular</div>
+                <h3 class="plan-name">Profesional</h3>
+                <div class="plan-price">S/ 49 <span>/mes</span></div>
+                <ul class="features-list">
+                    <li>Hasta 10 Propiedades</li>
+                    <li>Estimaciones con IA Avanzada</li>
+                    <li>5 Reportes PDF / mes</li>
+                    <li>Análisis de Mercado</li>
+                    <li>Soporte Prioritario</li>
+                </ul>
+                <button class="btn-plan btn-plan-primary" onclick="upgradePlan('Pro')">Elegir Profesional</button>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name">Enterprise</h3>
+                <div class="plan-price">S/ 199 <span>/mes</span></div>
+                <ul class="features-list">
+                    <li>Propiedades Ilimitadas</li>
+                    <li>API de Estimaciones</li>
+                    <li>Reportes Ilimitados</li>
+                    <li>Consultoría Personalizada</li>
+                    <li>Soporte 24/7</li>
+                </ul>
+                <button class="btn-plan btn-plan-outline" onclick="upgradePlan('Enterprise')">Contactar Ventas</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/utils.js"></script>
+    <script>
+        function upgradePlan(planName) {
+            // Simulación de upgrade
+            if (confirm(`¿Estás seguro que deseas actualizar al plan ${planName}?`)) {
+                // Aquí iría la integración con pasarela de pago
+                alert(`¡Felicidades! Has solicitado el plan ${planName}. Procesaremos tu solicitud.`);
+                window.location.href = '3-menu-principal.html';
+            }
+        }
+    </script>
+</body>
+
+</html>
